@@ -1,0 +1,14 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+note-tui
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
