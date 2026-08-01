@@ -6,7 +6,7 @@
 
 [English](README.md) | [ภาษาไทย](README.th.md)
 
-![note-tui preview](img/demo.png)
+![note-tui preview](img/Screenshot 2026-08-01 181737.png)
 
 </div>
 
