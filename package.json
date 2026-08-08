@@ -1,0 +1,14 @@
+{
+  "name": "note-tui",
+  "version": "1.0.0",
+  "description": "Simple text file note-taking application powered by Terminal UI (TUI) in Go",
+  "bin": {
+    "note-tui": "./bin/note-tui.js"
+  },
+  "scripts": {
+    "start": "go run main.go",
+    "build": "go build -o note-tui.exe .",
+    "test": "go test ./...",
+    "tidy": "go mod tidy"
+  }
+}

@@ -24,20 +24,26 @@
 
 ## 🚀 Quick Start
 
-### 1. Run using `go run`
+### 1. Run locally
 ```bash
-go run main.go
+npm install   # optional — no external dependencies needed
+npm start
 ```
 
-### 2. Custom Notes Directory (`--dir`)
+### 2. Build & sanity-check
 ```bash
-go run main.go --dir "D:\MyNotes"
+npm run build   # syntax-checks all source files
 ```
 
-### 3. Build Executable
+### 3. Run tests
 ```bash
-go build -o note-tui.exe .
-./note-tui.exe
+npm test
+```
+
+### 4. Install as a global command (optional)
+```bash
+npm link
+note-tui
 ```
 
 ---

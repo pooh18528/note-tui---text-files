@@ -24,20 +24,26 @@
 
 ## 🚀 วิธีการใช้งาน
 
-### 1. รันผ่าน `go run`
+### 1. รันแบบ Local
 ```bash
-go run main.go
+npm install   # optional — ไม่ต้อง dependency เพิ่มเติม
+npm start
 ```
 
-### 2. กำหนดโฟลเดอร์บันทึกโน้ตเอง (`--dir`)
+### 2. Build & ตรวจสอบความถูกต้องของโค้ด
 ```bash
-go run main.go --dir "D:\MyNotes"
+npm run build   # syntax-checks ทุกไฟล์ต้นฉบับ
 ```
 
-### 3. Build เป็น Executable
+### 3. รันเทสต์
 ```bash
-go build -o note-tui.exe .
-./note-tui.exe
+npm test
+```
+
+### 4. ติดตั้งเป็นคำสั่งระดับ Global (optional)
+```bash
+npm link
+note-tui
 ```
 
 ---
