@@ -1,3 +1,7 @@
+# Node
+node_modules/
+dist/
+
 # Binaries
 *.exe
 *.exe~
@@ -5,6 +9,9 @@
 *.so
 *.dylib
 note-tui
+
+# Test output
+coverage/
 
 # IDE & OS files
 .DS_Store

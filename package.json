@@ -1,14 +1,30 @@
 {
   "name": "note-tui",
-  "version": "1.0.0",
-  "description": "Simple text file note-taking application powered by Terminal UI (TUI) in Go",
+  "version": "2.0.0",
+  "description": "Simple text file note-taking application powered by Terminal UI (TUI) in Node.js",
+  "type": "module",
   "bin": {
-    "note-tui": "./bin/note-tui.js"
+    "note-tui": "./scripts/run.mjs"
   },
   "scripts": {
-    "start": "go run main.go",
-    "build": "go build -o note-tui.exe .",
-    "test": "go test ./...",
-    "tidy": "go mod tidy"
+    "start": "node scripts/run.mjs",
+    "build": "esbuild src/cli.jsx --bundle --platform=node --format=esm --packages=external --outfile=dist/note-tui.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "ink": "^7.1.0",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.0",
+    "react-ink-textarea": "^0.4.0",
+    "string-width": "^8.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "ink-testing-library": "^4.0.0",
+    "vitest": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

@@ -2,7 +2,7 @@
 
 # 📝 note-tui
 
-**Simple text file note-taking application powered by Terminal UI (TUI) in Go**
+**Simple text file note-taking application powered by Terminal UI (TUI) in Node.js**
 
 [English](README.md) | [ภาษาไทย](README.th.md)
 
@@ -15,24 +15,27 @@
 ## ✨ Key Features
 
 - 📁 **Plain Text Storage**: All notes are stored as `.md` or `.txt` text files in `./notes` (or a custom directory via `--dir`), making them readable by any editor, Git, or cloud sync service.
-- 🎨 **Modern Sleek Interface**: Built with [Charm Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Lip Gloss](https://github.com/charmbracelet/lipgloss) with an aesthetic dark mode design.
+- 🎨 **Modern Sleek Interface**: Built with [Ink](https://github.com/vadimdemedes/ink) (React for CLIs) and a custom dark-mode theme.
 - 🔍 **Real-time Live Search**: Press `/` to search and filter notes by title or content instantly.
 - 📊 **Note Statistics**: Displays word count, line count, file size, and last modified date.
 - ⌨️ **Keyboard Driven**: Efficient workflow with keyboard shortcuts for all actions.
+- ✅ **Zero native dependencies**: No node-gyp, no Visual Studio builds — pure JavaScript.
 
 ---
 
 ## 🚀 Quick Start
 
+> Requires [Node.js](https://nodejs.org/) **v22 or newer**. No other tools needed.
+
 ### 1. Run locally
 ```bash
-npm install   # optional — no external dependencies needed
+npm install
 npm start
 ```
 
-### 2. Build & sanity-check
+### 2. Build a single-file bundle & sanity-check
 ```bash
-npm run build   # syntax-checks all source files
+npm run build   # bundles to dist/note-tui.mjs
 ```
 
 ### 3. Run tests
@@ -63,6 +66,9 @@ note-tui
 | | `q` / `Ctrl+C` | Quit note-tui |
 | **Edit Mode** | `Ctrl+S` | Save changes |
 | | `Esc` | Cancel editing |
+| | `Enter` | Insert new line |
+| | `↑`/`↓`/`←`/`→` | Move cursor |
+| | `Ctrl+Z` / `Ctrl+Y` | Undo / Redo |
 | **Search Mode** | `Type text` | Filter notes in real-time |
 | | `Esc` | Clear search filter |
 
@@ -72,16 +78,29 @@ note-tui
 
 ```
 note-tui/
-├── main.go               # CLI entry point & flag parsing
-├── storage/
-│   ├── storage.go        # Text file reading/writing/deleting & searching
-│   └── storage_test.go   # Unit tests for storage
-├── ui/
-│   ├── model.go          # Bubble Tea state machine & views
-│   └── styles.go         # Lip Gloss theme & UI styling
+├── src/
+│   ├── cli.jsx              # Entry point & CLI flag parsing (--dir, --version)
+│   ├── app.jsx              # App state machine & keyboard-driven mode switching
+│   ├── storage.js           # Text file reading/writing/deleting & searching
+│   ├── styles.js            # Color palette / theme
+│   ├── utils.js             # Text wrap, truncate & date formatting helpers
+│   └── ui/
+│       ├── Header.jsx       # Top app header bar
+│       ├── Sidebar.jsx      # Notes list pane
+│       ├── NoteView.jsx     # Note content viewer (scrollable)
+│       ├── CreateForm.jsx   # New-note title form
+│       ├── EditorPane.jsx   # Multi-line markdown editor (line numbers, undo)
+│       ├── SearchBox.jsx    # Live search input
+│       ├── DeleteView.jsx   # Delete confirmation
+│       └── StatusBar.jsx    # Key hints & status toast
+├── scripts/
+│   └── run.mjs              # Dev launcher (transpiles JSX via esbuild)
+├── tests/
+│   ├── storage.test.js      # Storage unit tests
+│   └── app.test.jsx         # UI smoke tests
 ├── img/
-│   └── demo.png          # Demo preview screenshot
-└── notes/                # Storage directory for note text files
+│   └── demo.png             # Demo preview screenshot
+└── notes/                   # Storage directory for note text files
     ├── welcome.md
     └── shortcut-guide.md
 ```
