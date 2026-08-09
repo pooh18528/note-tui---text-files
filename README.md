@@ -25,28 +25,31 @@
 
 ## 🚀 Quick Start
 
-> Requires [Node.js](https://nodejs.org/) **v22 or newer**. No other tools needed.
+> Requires [Node.js](https://nodejs.org/) **v22 or newer**.
 
-### 1. Run locally
+### 1. Download & Install
 ```bash
+git clone https://github.com/pooh18528/note-tui---text-files.git
+cd note-tui---text-files
 npm install
+```
+
+### 2. Run
+```bash
 npm start
+# or
+npx note-tui
 ```
 
-### 2. Build a single-file bundle & sanity-check
-```bash
-npm run build   # bundles to dist/note-tui.mjs
-```
-
-### 3. Run tests
-```bash
-npm test
-```
-
-### 4. Install as a global command (optional)
+### 3. Install globally (optional)
 ```bash
 npm link
 note-tui
+```
+
+### 4. Custom app name
+```bash
+note-tui --name myapp
 ```
 
 ---
