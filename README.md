@@ -60,6 +60,7 @@ note-tui
 | | `Enter` / `v` | View selected note |
 | | `n` | Create new note |
 | | `e` | Edit selected note |
+| | `Shift+R` | Rename selected note |
 | | `d` | Delete selected note (with confirmation prompt) |
 | | `/` | Search & filter notes |
 | | `r` | Refresh notes from disk |

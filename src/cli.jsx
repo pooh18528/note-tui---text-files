@@ -14,6 +14,7 @@ Usage:
 
 Options:
   --dir <path>   Directory to store note text files (default: notes)
+  --name <name>  Custom app name displayed in header (default: note-tui)
   -v, --version  Show version and exit
   -h, --help     Show this help and exit
 `;
@@ -24,6 +25,7 @@ try {
 		args: process.argv.slice(2),
 		options: {
 			dir: { type: 'string' },
+			name: { type: 'string' },
 			v: { type: 'boolean', short: 'v' },
 			version: { type: 'boolean' },
 			h: { type: 'boolean', short: 'h' },
@@ -56,5 +58,6 @@ if (!process.stdin.isTTY || !process.stdout.isTTY) {
 }
 
 const store = await new Storage(values.dir).init();
+const appName = values.name || 'war';
 
-render(<App store={store} />, { exitOnCtrlC: false });
+render(<App store={store} appName={appName} />, { exitOnCtrlC: false });

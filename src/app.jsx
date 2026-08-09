@@ -7,13 +7,14 @@ import { CreateForm } from './ui/CreateForm.jsx';
 import { EditorPane } from './ui/EditorPane.jsx';
 import { SearchBox } from './ui/SearchBox.jsx';
 import { DeleteView } from './ui/DeleteView.jsx';
+import { RenameForm } from './ui/RenameForm.jsx';
 import { StatusBar } from './ui/StatusBar.jsx';
 import { filterNotes } from './storage.js';
 import { THEME } from './styles.js';
 
 const STATUS_TIMEOUT_MS = 5000;
 
-export function App({ store }) {
+export function App({ store, appName = 'note-tui' }) {
 	const { exit } = useApp();
 	const { columns: width, rows: height } = useWindowSize();
 
@@ -25,6 +26,7 @@ export function App({ store }) {
 	const [createTitle, setCreateTitle] = useState('');
 	const [editFilename, setEditFilename] = useState('');
 	const [editContent, setEditContent] = useState('');
+	const [renameValue, setRenameValue] = useState('');
 	const [searchQuery, setSearchQuery] = useState('');
 	const [status, setStatus] = useState({ msg: '', isErr: false });
 
@@ -120,6 +122,36 @@ export function App({ store }) {
 		setMode('search');
 	}, []);
 
+	const startRename = useCallback(() => {
+		const note = filteredNotes[selectedIndex];
+		if (note) {
+			const base = note.filename.replace(/\.[^.]+$/, '');
+			setRenameValue(base);
+			setMode('rename');
+		}
+	}, [filteredNotes, selectedIndex]);
+
+	const submitRename = useCallback(async () => {
+		const note = filteredNotes[selectedIndex];
+		if (!note || !renameValue.trim()) {
+			setMode('list');
+			return;
+		}
+		const newName = renameValue.trim().replace(/[ /\\:*?"<>|]/g, '-');
+		if (newName === note.filename.replace(/\.[^.]+$/, '')) {
+			setMode('list');
+			return;
+		}
+		try {
+			await store.renameNote(note.filename, newName);
+			setStatusMessage(`Renamed to ${newName}`);
+			setMode('list');
+			await reload();
+		} catch (err) {
+			setStatusMessage(`Failed to rename: ${err.message}`, true);
+		}
+	}, [filteredNotes, selectedIndex, renameValue, store, reload, setStatusMessage]);
+
 	const handleSearchChange = useCallback(
 		(query) => {
 			setSearchQuery(query);
@@ -195,9 +227,11 @@ export function App({ store }) {
 						startEdit();
 					} else if (input === 'd') {
 						setMode('delete');
-					} else if (input === '/') {
-						startSearch();
-					} else if (input === 'r') {
+				} else if (input === '/') {
+					startSearch();
+				} else if (input === 'R') {
+					startRename();
+				} else if (input === 'r') {
 						reload('Notes refreshed');
 					}
 					break;
@@ -246,13 +280,21 @@ export function App({ store }) {
 					}
 					break;
 
-				case 'search':
-					if (key.escape) {
-						clearSearch();
-					} else if (key.return) {
-						setMode('list');
-					}
-					break;
+			case 'search':
+				if (key.escape) {
+					clearSearch();
+				} else if (key.return) {
+					setMode('list');
+				}
+				break;
+
+			case 'rename':
+				if (key.escape) {
+					setMode('list');
+				} else if (key.return) {
+					submitRename();
+				}
+				break;
 				default:
 					break;
 			}
@@ -323,8 +365,18 @@ export function App({ store }) {
 					</Box>
 				);
 
-			case 'delete':
-				return selectedNote ? <DeleteView note={selectedNote} /> : null;
+		case 'delete':
+			return selectedNote ? <DeleteView note={selectedNote} /> : null;
+
+		case 'rename':
+			return (
+				<RenameForm
+					value={renameValue}
+					onChange={setRenameValue}
+					onSubmit={submitRename}
+					focus
+				/>
+			);
 
 			default:
 				return selectedNote ? (
@@ -347,7 +399,7 @@ export function App({ store }) {
 
 	return (
 		<Box flexDirection="column">
-			<HeaderBar dir={store.dir} count={filteredNotes.length} />
+			<HeaderBar dir={store.dir} count={filteredNotes.length} appName={appName} />
 
 			<Box flexDirection="row">
 				<Sidebar

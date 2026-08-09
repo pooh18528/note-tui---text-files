@@ -36,7 +36,7 @@ function helpFor(mode) {
 		default:
 			return (
 				<Text>
-					{key('j/k')} List  •  {key('Enter')} View  •  {key('n')} New  •  {key('e')} Edit  •  {key('d')} Delete  •  {key('/')} Search  •  {key('r')} Refresh  •  {key('q')} Quit
+					{key('j/k')} List  •  {key('Enter')} View  •  {key('n')} New  •  {key('e')} Edit  •  {key('Shift+R')} Rename  •  {key('d')} Delete  •  {key('/')} Search  •  {key('r')} Refresh  •  {key('q')} Quit
 				</Text>
 			);
 	}
