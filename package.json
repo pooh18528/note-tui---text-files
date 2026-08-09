@@ -10,7 +10,6 @@
     "start": "node dist/note-tui.mjs",
     "dev": "node scripts/run.mjs",
     "build": "esbuild src/cli.jsx --bundle --platform=node --format=esm --packages=external --outfile=dist/note-tui.mjs",
-    "prepare": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest"
   },
